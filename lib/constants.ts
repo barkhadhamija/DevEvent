@@ -47,12 +47,5 @@ export const events = [
     date: "Jun 11-12, 2026",
     time: "9:00 AM - 6:00 PM",
   },
-  {
-    title: "Web Summit 2026",
-    image: "/images/event-full.png",
-    slug: "web-summit-2026",
-    location: "Lisbon, Portugal",
-    date: "Nov 9-12, 2026",
-    time: "10:00 AM - 6:00 PM",
-  },
+
 ];
