@@ -53,10 +53,10 @@ const BookingSchema = new Schema<IBooking>(
 // This guard prevents orphaned bookings when the caller passes an ID for
 // a non-existent (or deleted) event.
 // ---------------------------------------------------------------------------
-BookingSchema.pre<IBooking>("save", async function (next) {
+BookingSchema.pre<IBooking>("save", async function () {
   // Only re-validate when the eventId field is being set or changed.
   if (!this.isModified("eventId")) {
-    return next();
+    return;
   }
 
   // Lazy-require to avoid a circular import: booking → event → (nothing)
@@ -65,12 +65,8 @@ BookingSchema.pre<IBooking>("save", async function (next) {
   const eventExists = await Event.exists({ _id: this.eventId });
 
   if (!eventExists) {
-    return next(
-      new Error(`Event with id "${this.eventId}" does not exist.`)
-    );
+    throw new Error(`Event with id "${this.eventId}" does not exist.`);
   }
-
-  next();
 });
 
 // ---------------------------------------------------------------------------

@@ -7,11 +7,7 @@ import mongoose, { Mongoose } from "mongoose";
 // ---------------------------------------------------------------------------
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable in your .env file."
-  );
-}
+
 
 // ---------------------------------------------------------------------------
 // Connection cache type
@@ -67,6 +63,11 @@ export async function connectToDatabase(): Promise<Mongoose> {
 
   // If no connection attempt is in flight yet, start one.
   if (!cached.promise) {
+    if (!MONGODB_URI) {
+      throw new Error(
+          "Please define the MONGODB_URI environment variable in your .env file."
+      );
+    }
     const connectionOptions: mongoose.ConnectOptions = {
       // Disable Mongoose's internal command buffering so that operations fail
       // immediately if the connection is lost, rather than queuing silently.
